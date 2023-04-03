@@ -52,3 +52,4 @@ Colin Childers - Senior at UNCC majoring in  Comp Science
 
 Ryan Lowell - Junior at UNCC majoring in Computer Science
 
+ Steve Andreas - Senior at UNCC majoring in Comp Science
