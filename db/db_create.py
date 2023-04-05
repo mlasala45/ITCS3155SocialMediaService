@@ -1,10 +1,5 @@
 import pymysql
-
-# Connect to the MySQL server
-# use whatever your credentials are for your mySQL database
-conn = pymysql.connect(host='127.0.0.1',
-                       user='root',
-                       password='BusterBitch123!')
+from db_connect import conn
 
 # Create a new database
 db_name = 'my_database'

@@ -3,7 +3,7 @@ from flask import request
 
 from flask_sqlalchemy import SQLAlchemy
 
-from db/db_connect import DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD,
+from db.db_connect import DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD
 
 # DB_HOST = "localhost"
 # DB_NAME = "sandwich_maker"
