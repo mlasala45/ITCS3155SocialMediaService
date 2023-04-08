@@ -1,0 +1,60 @@
+from flask import Flask, flash, redirect, url_for, render_template, session
+from flask import request
+
+from flask_sqlalchemy import SQLAlchemy
+
+from db.db_connect import DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD
+
+# DB_HOST = "localhost"
+# DB_NAME = "sandwich_maker"
+# DB_USERNAME = "root"
+# DB_Password = "root"
+
+database_file = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_NAME}"
+
+app = Flask(__name__)
+app.secret_key = "mysecret"
+app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+
+db = SQLAlchemy(app)
+
+class UserCredentials(db.Model):
+    __tablename__ = 'user_credentials'
+    username = db.Column(db.String(36), primary_key=True, nullable=False)
+    password = db.Column(db.String(20), nullable=False)
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+
+@app.route("/")
+def home():
+    return redirect("/login")
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if not request.form['username'] or not request.form['password']:
+            flash('Missing required fields', 'error')
+        else:
+            username = request.form['username']
+            user_entry = UserCredentials.query.filter_by(username=username).first()
+            if not user_entry:
+                flash("Invalid username", category="error")
+                print("Bad username")
+            elif user_entry.password == request.form['password']:
+                flash('Login successful', 'success')
+                session['username'] = username
+                return redirect("/welcome")
+            else:
+                flash("Incorrect password", category="error")
+    return render_template('login.html')
+
+@app.route('/welcome', methods=['GET'])
+def welcome():
+    return render_template('welcome.html', username=session['username'])
+
+if __name__ == '__main__':
+    app.run(port=3001, host="localhost", debug=True)
