@@ -2,9 +2,19 @@
 <html>
   <head>
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
     <h1>Login</h1>
+
+    <!-- Flashed messages -->
+    {%- for category, message in get_flashed_messages(with_categories = true) %}
+    <div class="{{ category }}">
+        {{ message }}
+    </div>
+    {%- endfor %}
+
+    <!-- Login form -->
     <form action="/login" method="POST">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username"><br><br>
