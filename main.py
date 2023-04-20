@@ -31,7 +31,7 @@ class UserCredentials(db.Model):
 
 
 class UserPost(db.Model):
-    __tablename__ = 'user_post'
+    __tablename__ = 'user_posts'
     user = db.Column(db.Integer(), nullable=False)
     timePosted = db.Column(db.String(20), nullable=False)
     text = db.Column(db.String(280), nullable=False)
