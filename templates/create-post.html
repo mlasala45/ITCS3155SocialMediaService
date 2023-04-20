@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to SocialMediaService</title>
+    <title>Create Post</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
-    <h1>Welcome, {{ username }}!</h1>
+    <h1>Create Post</h1>
 
     <!-- Flashed messages -->
     {%- for category, message in get_flashed_messages(with_categories = true) %}
@@ -14,9 +14,10 @@
     </div>
     {%- endfor %}
 
-    <!-- Content -->
-    <img src="{{ url_for('static', filename='images/welcome.jpg') }}" alt="Welcome Image">
-    <br>
-    <a href="/create-post">Create Post</a>
+    <!-- Login form -->
+    <form action="/create-post" method="POST">
+      <textarea id="text" name="text" rows="8" cols="70"></textarea><br><br>
+      <input type="submit" value="Submit">
+    </form>
   </body>
 </html>

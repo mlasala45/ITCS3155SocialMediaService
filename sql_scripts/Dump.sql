@@ -50,10 +50,12 @@ DROP TABLE IF EXISTS `user_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_posts` (
+  `uid` int NOT NULL AUTO_INCREMENT,
   `user` int NOT NULL,
   `timePosted` datetime NOT NULL,
-  `text` varchar(280) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `text` varchar(280) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +64,7 @@ CREATE TABLE `user_posts` (
 
 LOCK TABLES `user_posts` WRITE;
 /*!40000 ALTER TABLE `user_posts` DISABLE KEYS */;
+INSERT INTO `user_posts` VALUES (1,0,'2023-04-20 14:34:41','Hello, World!');
 /*!40000 ALTER TABLE `user_posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -74,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-20 14:01:14
+-- Dump completed on 2023-04-20 14:36:08

@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from db.db_connect import DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD
 
+import datetime
+
 # DB_HOST = "localhost"
 # DB_NAME = "sandwich_maker"
 # DB_USERNAME = "root"
@@ -21,7 +23,7 @@ db = SQLAlchemy(app)
 
 class UserCredentials(db.Model):
     __tablename__ = 'user_credentials'
-    uid = db.Column(db.Int(), primary_key=True, nullable=False)
+    uid = db.Column(db.Integer(), primary_key=True, nullable=False)
     username = db.Column(db.String(36), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
@@ -32,13 +34,10 @@ class UserCredentials(db.Model):
 
 class UserPost(db.Model):
     __tablename__ = 'user_posts'
+    uid = db.Column(db.Integer(), primary_key=True, nullable=False, autoincrement=True)
     user = db.Column(db.Integer(), nullable=False)
-    timePosted = db.Column(db.String(20), nullable=False)
+    timePosted = db.Column(db.DateTime(), nullable=False)
     text = db.Column(db.String(280), nullable=False)
-
-    def __init__(self, text):
-        self.text = text
-
 
 @app.route("/")
 def home():
@@ -46,8 +45,9 @@ def home():
 
 
 # Logs the user in. Called after details are validated. Returns false if an error occurred.
-def log_user_in(username):
+def log_user_in(username, user_uid):
     session['username'] = username
+    session['user-uid'] = user_uid
     return True
 
 
@@ -63,7 +63,7 @@ def login():
                 flash("Invalid username", category="error")
                 print("Bad username")
             elif user_entry.password == request.form['password']:
-                succ = log_user_in(username)
+                succ = log_user_in(username, user_entry.uid)
                 if succ:
                     flash('Login successful', 'success')
                     return redirect("/welcome")
@@ -77,6 +77,25 @@ def login():
 @app.route('/welcome', methods=['GET'])
 def welcome():
     return render_template('welcome.html', username=session['username'])
+
+
+@app.route('/create-post', methods=['GET', 'POST'])
+def create_post():
+    if request.method == 'POST':
+        if not request.form['text']:
+            flash('Missing required fields', 'error')
+        else:
+            text = request.form['text']
+            user = session['user-uid']
+            timePosted = datetime.datetime.now()
+
+            post_inst = UserPost(text=text, user=user, timePosted=timePosted)
+            db.session.add(post_inst)
+            db.session.commit()
+
+            return redirect("/welcome")
+    return render_template('create-post.html', username=session['username'])
+
 
 if __name__ == '__main__':
     app.run(port=3001, host="localhost", debug=True)
