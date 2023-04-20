@@ -18,9 +18,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 
 db = SQLAlchemy(app)
 
+
 class UserCredentials(db.Model):
     __tablename__ = 'user_credentials'
-    username = db.Column(db.String(36), primary_key=True, nullable=False)
+    uid = db.Column(db.Int(), primary_key=True, nullable=False)
+    username = db.Column(db.String(36), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
     def __init__(self, username, password):
@@ -28,9 +30,20 @@ class UserCredentials(db.Model):
         self.password = password
 
 
+class UserPost(db.Model):
+    __tablename__ = 'user_post'
+    user = db.Column(db.Integer(), nullable=False)
+    timePosted = db.Column(db.String(20), nullable=False)
+    text = db.Column(db.String(280), nullable=False)
+
+    def __init__(self, text):
+        self.text = text
+
+
 @app.route("/")
 def home():
     return redirect("/login")
+
 
 # Logs the user in. Called after details are validated. Returns false if an error occurred.
 def log_user_in(username):
@@ -59,6 +72,7 @@ def login():
             else:
                 flash("Incorrect password", category="error")
     return render_template('login.html')
+
 
 @app.route('/welcome', methods=['GET'])
 def welcome():

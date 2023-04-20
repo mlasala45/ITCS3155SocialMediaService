@@ -23,9 +23,12 @@ DROP TABLE IF EXISTS `user_credentials`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_credentials` (
+  `uid` int NOT NULL,
   `username` varchar(36) NOT NULL,
   `password` varchar(20) NOT NULL,
-  PRIMARY KEY (`username`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -35,8 +38,31 @@ CREATE TABLE `user_credentials` (
 
 LOCK TABLES `user_credentials` WRITE;
 /*!40000 ALTER TABLE `user_credentials` DISABLE KEYS */;
-INSERT INTO `user_credentials` VALUES ('avgjoe','johndoe'),('sysadmin','password');
+INSERT INTO `user_credentials` VALUES (0,'sysadmin','password');
 /*!40000 ALTER TABLE `user_credentials` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_posts`
+--
+
+DROP TABLE IF EXISTS `user_posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_posts` (
+  `user` int NOT NULL,
+  `timePosted` datetime NOT NULL,
+  `text` varchar(280) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_posts`
+--
+
+LOCK TABLES `user_posts` WRITE;
+/*!40000 ALTER TABLE `user_posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +74,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-07 22:00:45
+-- Dump completed on 2023-04-20 14:01:14
