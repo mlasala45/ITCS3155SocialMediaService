@@ -32,6 +32,11 @@ class UserCredentials(db.Model):
 def home():
     return redirect("/login")
 
+# Logs the user in. Called after details are validated. Returns false if an error occurred.
+def log_user_in(username):
+    session['username'] = username
+    return True
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -45,9 +50,12 @@ def login():
                 flash("Invalid username", category="error")
                 print("Bad username")
             elif user_entry.password == request.form['password']:
-                flash('Login successful', 'success')
-                session['username'] = username
-                return redirect("/welcome")
+                succ = log_user_in(username)
+                if succ:
+                    flash('Login successful', 'success')
+                    return redirect("/welcome")
+                else:
+                    flash('Unknown error while logging in', category="error")
             else:
                 flash("Incorrect password", category="error")
     return render_template('login.html')
