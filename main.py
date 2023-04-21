@@ -76,7 +76,16 @@ def login():
 
 @app.route('/welcome', methods=['GET'])
 def welcome():
-    return render_template('welcome.html', username=session['username'])
+    query = UserPost.query
+    posts = query.all()
+
+    # Adds data for the webpage that is not in the database entry
+    for i in range(0, len(posts)):
+        # Translates user UID to username
+        name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
+        posts[i] = {"username": name, "data": posts[i]}
+
+    return render_template('welcome.html', username=session['username'], posts=posts)
 
 
 @app.route('/create-post', methods=['GET', 'POST'])

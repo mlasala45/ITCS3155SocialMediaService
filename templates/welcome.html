@@ -14,9 +14,16 @@
     </div>
     {%- endfor %}
 
-    <!-- Content -->
+    <!-- Welcome Content -->
     <img src="{{ url_for('static', filename='images/welcome.jpg') }}" alt="Welcome Image">
     <br>
-    <a href="/create-post">Create Post</a>
+    <a href="/create-post">Create Post</a><br><br>
+
+
+    <!-- Feed Content -->
+    <h4>Your Feed:</h4><br>
+    {%- for post in posts %}
+    By {{ post.username }} at {{ post.data.timePosted }}: {{ post.data.text }}<br>
+    {%- endfor %}
   </body>
 </html>
