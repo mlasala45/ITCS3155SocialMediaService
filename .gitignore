@@ -159,3 +159,4 @@ cython_debug/
 venv
 
 #Credentials
+db/db_credentials.py
