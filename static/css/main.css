@@ -1,3 +1,5 @@
+/* Popup messages and iframes */
+
 .error {
     color: red
 }
@@ -5,3 +7,19 @@
 .success {
     color: green
 }
+
+iframe[seamless] {
+    background-color: transparent;
+    border: 0px none transparent;
+    padding: 0px;
+    overflow: hidden;
+}
+
+div.scroll {
+  height: 90%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;
+}
+
