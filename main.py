@@ -20,6 +20,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 
 db = SQLAlchemy(app)
 
+@instance.before_request
+def initialize_session():
+    session['username'] = None
+    session['user-uid'] = None
 
 class UserCredentials(db.Model):
     __tablename__ = 'user_credentials'
