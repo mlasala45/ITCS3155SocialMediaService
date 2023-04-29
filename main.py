@@ -41,13 +41,19 @@ class UserPost(db.Model):
 
 @app.route("/")
 def home_implicit():
-    return redirect("/login")
+    return redirect("/welcome")
 
 
 # Logs the user in. Called after details are validated. Returns false if an error occurred.
 def log_user_in(username, user_uid):
     session['username'] = username
     session['user-uid'] = user_uid
+    return True
+
+
+def log_user_out():
+    session['username'] = None
+    session['user-uid'] = None
     return True
 
 
@@ -73,6 +79,11 @@ def login():
                 flash("Incorrect password", category="error")
     return render_template('login.html')
 
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    log_user_out()
+    return redirect("/")
 
 @app.route('/welcome', methods=['GET'])
 def welcome():
