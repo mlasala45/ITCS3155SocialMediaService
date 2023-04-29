@@ -41,7 +41,7 @@ class UserPost(db.Model):
 
 @app.route("/")
 def home_implicit():
-    return redirect("/login")
+    return redirect("/welcome")
 
 
 # Logs the user in. Called after details are validated. Returns false if an error occurred.
