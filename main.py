@@ -94,7 +94,9 @@ def welcome():
     for i in range(0, len(posts)):
         # Translates user UID to username
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
-        posts[i] = {"username": name, "data": posts[i]}
+        timePosted = posts[i].timePosted
+        timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
+        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
 
     return render_template('welcome.html', username=session['username'], posts=posts)
 
