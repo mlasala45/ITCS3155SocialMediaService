@@ -7,7 +7,7 @@
   </head>
   <body>
     <nav>
-      <ul>
+      <ul id="username-check">
         {%- if username == None %}
         <li><a href="/login">Log In</a></li>
         {%- else %}
@@ -22,9 +22,7 @@
     </nav>
 
     <div class="scroll">
-
-
-        {%- if username == None %}
+      {%- if username == None %}
         <h1>Browsing as Guest</h1>
         {%- else %}
         <h1>Welcome, {{ username }}!</h1>
@@ -39,14 +37,14 @@
       {%- endfor %}
 
       <!-- Welcome Content -->
-      <img src="{{ url_for('static', filename='images/welcome.jpg') }}" alt="Welcome Image">
+      <img src="../static/images/welcome.jpg" alt="Welcome Image">
       <br>
 
 
       <!-- Feed Content -->
       <h2>Your Feed:</h2>
       <div class='post-container'>
-      {%- for post in posts %}
+        {%- for post in posts %}
         <div class='card'>
             <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}&timePosted={{post.timePostedText}}" seamless></iframe>
             {%- if post.username == username %}

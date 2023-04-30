@@ -1,5 +1,5 @@
 from flask import Flask, flash, redirect, url_for, render_template, session
-from flask import request
+from flask import request, json
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -98,7 +98,11 @@ def welcome():
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
         timePosted = posts[i].timePosted
         timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
-        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
+        posts[i] = {"username": name, "timePosted": timePosted, "timePostedText": timePostedText, "data": posts[i]}
+    
+    def returnDate(post):
+        return post.get('timePosted')
+    posts.sort(key=returnDate, reverse=True)
 
     return render_template('welcome.html', username=session['username'], posts=posts)
 
