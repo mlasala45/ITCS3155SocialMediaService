@@ -23,8 +23,10 @@ db = SQLAlchemy(app)
 
 @app.before_request
 def initialize_session():
-    session['username'] = None
-    session['user-uid'] = None
+    if 'username' not in session:
+        session['username'] = None
+    if 'user-uid' not in session:
+        session['user-uid'] = None
 
 
 class UserCredentials(db.Model):
