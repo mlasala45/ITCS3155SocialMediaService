@@ -51,7 +51,7 @@
           {%- if post.username == username %}
           <div style="display: inline-block;bottom: 109px; position: relative;width: fit-content;text-align: left;">
             <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
-            <a href="/removepost" style="color:white">Remove</a>
+            <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
           </div>
           {%- endif %}
       </div>

@@ -109,8 +109,16 @@ def edit_post(post_uid):
     if request.method == 'POST':
         post.text = request.form['text']
         db.session.commit()
-        return redirect("/welcome")
+        return redirect("/home")
     return render_template('edit-post.html', post=post)
+
+
+@app.route('/removepost/<post_uid>', methods=['GET'])
+def remove_post(post_uid):
+    UserPost.query.filter_by(uid=post_uid).delete()
+    db.session.commit()
+    return redirect('/home')
+
 
 @app.route('/home')
 def home_explicit():
