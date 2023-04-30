@@ -15,11 +15,47 @@ iframe[seamless] {
     overflow: hidden;
 }
 
-div.scroll {
-  height: 90%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  text-align: center;
-  padding: 20px;
+.scroll {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 90%;
+    width: 50%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
 }
 
+.scroll img {
+    align-self: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.post-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card {
+    display: flex;
+    position: relative;
+    width: 302px;
+    height:143px;
+}
+
+.card iframe {
+    width: inherit;
+}
+
+
+.card-actions {
+    position: absolute;
+    text-align: left;
+    right: -60px;
+}
