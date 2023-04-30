@@ -1,6 +1,8 @@
 from flask import Flask, flash, redirect, url_for, render_template, session
 from flask import request
 
+from werkzeug.urls import url_quote
+
 from flask_sqlalchemy import SQLAlchemy
 
 from db.db_connect import DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD
@@ -110,7 +112,8 @@ def welcome():
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
         timePosted = posts[i].timePosted
         timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
-        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
+        textEncoded = url_quote(posts[i].text)
+        posts[i] = {"username": name, "timePostedText": timePostedText, "text": textEncoded, "data": posts[i]}
 
     return render_template('welcome.html', username=session['username'], posts=posts)
 
