@@ -7,7 +7,7 @@
   </head>
   <body>
     <nav>
-      <ul>
+      <ul id="username-check">
         {%- if username == None %}
         <li><a href="/login">Log In</a></li>
         {%- else %}
@@ -22,40 +22,40 @@
     </nav>
 
     <div class="scroll">
-
-
       {%- if username == None %}
-      <h1>Browsing as Guest</h1>
-      {%- else %}
-      <h1>Welcome, {{ username }}!</h1>
-      {%- endif %}
+        <h1>Browsing as Guest</h1>
+        {%- else %}
+        <h1>Welcome, {{ username }}!</h1>
+        {%- endif %}
 
 
-    <!-- Flashed messages -->
-    {%- for category, message in get_flashed_messages(with_categories = true) %}
-    <div class="{{ category }}">
-        {{ message }}
-    </div>
-    {%- endfor %}
-
-    <!-- Welcome Content -->
-    <img src="{{ url_for('static', filename='images/welcome.jpg') }}" alt="Welcome Image">
-    <br>
-
-
-    <!-- Feed Content -->
-    <h4>Your Feed:</h4>
-    {%- for post in posts %}
-      <div>
-          <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}&timePosted={{post.timePostedText}}" style="width: 302px; height:143px" seamless></iframe>
-          {%- if post.username == username %}
-          <div style="display: inline-block;bottom: 109px; position: relative;width: fit-content;text-align: left;">
-            <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
-            <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
-          </div>
-          {%- endif %}
+      <!-- Flashed messages -->
+      {%- for category, message in get_flashed_messages(with_categories = true) %}
+      <div class="{{ category }}">
+          {{ message }}
       </div>
-    {%- endfor %}
+      {%- endfor %}
+
+      <!-- Welcome Content -->
+      <img src="../static/images/welcome.jpg" alt="Welcome Image">
+      <br>
+
+
+      <!-- Feed Content -->
+      <h2>Your Feed:</h2>
+      <div class='post-container'>
+        {%- for post in posts %}
+        <div class='card'>
+            <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}&timePosted={{post.timePostedText}}" seamless></iframe>
+            {%- if post.username == username %}
+            <div class="card-actions">
+              <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
+              <a href="/removepost" style="color:white">Remove</a>
+            </div>
+            {%- endif %}
+        </div>
+      {%- endfor %}
+      </div>
     </div>
 
     <footer>
