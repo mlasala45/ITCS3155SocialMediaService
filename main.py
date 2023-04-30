@@ -62,6 +62,8 @@ def log_user_out():
     session['user-uid'] = None
     return True
 
+def get_post_by_uid(post_uid):
+    return UserPost.query.filter_by(uid=post_uid).first()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -100,9 +102,29 @@ def welcome():
     for i in range(0, len(posts)):
         # Translates user UID to username
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
-        posts[i] = {"username": name, "data": posts[i]}
+        timePosted = posts[i].timePosted
+        timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
+        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
 
     return render_template('welcome.html', username=session['username'], posts=posts)
+
+
+@app.route('/editpost/<post_uid>', methods=['GET', 'POST'])
+def edit_post(post_uid):
+    post = get_post_by_uid(post_uid)
+    if request.method == 'POST':
+        post.text = request.form['text']
+        db.session.commit()
+        return redirect("/home")
+    return render_template('edit-post.html', post=post)
+
+
+@app.route('/removepost/<post_uid>', methods=['GET'])
+def remove_post(post_uid):
+    UserPost.query.filter_by(uid=post_uid).delete()
+    db.session.commit()
+    return redirect('/home')
+
 
 @app.route('/home')
 def home_explicit():

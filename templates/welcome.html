@@ -46,8 +46,15 @@
     <!-- Feed Content -->
     <h4>Your Feed:</h4>
     {%- for post in posts %}
-    <!--By {{ post.username }} at {{ post.data.timePosted }}: {{ post.data.text }}<br>-->
-      <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}" style="width: 302px; height:143px" seamless></iframe><br>
+      <div>
+          <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}&timePosted={{post.timePostedText}}" style="width: 302px; height:143px" seamless></iframe>
+          {%- if post.username == username %}
+          <div style="display: inline-block;bottom: 109px; position: relative;width: fit-content;text-align: left;">
+            <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
+            <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
+          </div>
+          {%- endif %}
+      </div>
     {%- endfor %}
     </div>
 

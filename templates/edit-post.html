@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <h1>Edit Post</h1>
+
+    <!-- Flashed messages -->
+    {%- for category, message in get_flashed_messages(with_categories = true) %}
+    <div class="{{ category }}">
+        {{ message }}
+    </div>
+    {%- endfor %}
+
+    <!-- Login form -->
+    <form action="/editpost/{{post.uid}}" method="POST">
+      <textarea id="text" name="text" rows="8" cols="70">{{post.text}}</textarea><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

@@ -52,11 +52,33 @@
       height: 29px;
       font-family: "Trebuchet MS";
       color: white;
-      font-size: 20px;
+      font-size: 15px;
       left: 46px;
-      top: 6px;
+      top: 11px;
       transform-origin: 50% 50% 0px;
-      width: 159px;
+      width: 250px;
+    }
+    .class-edit-post {
+      position: absolute;
+      height: 29px;
+      font-family: "Trebuchet MS";
+      color: white;
+      font-size: 15px;
+      left: 250px;
+      top: 11px;
+      transform-origin: 50% 50% 0px;
+      width: 50px;
+    }
+    .class-remove-post {
+      position: absolute;
+      height: 29px;
+      font-family: "Trebuchet MS";
+      color: white;
+      font-size: 15px;
+      left: 250px;
+      top: 11px;
+      transform-origin: 50% 50% 0px;
+      width: 50px;
     }
     .gwd-p-yjd6 {
       position: absolute;
@@ -144,7 +166,7 @@ for (x in params)
 data[params[x].split('=')[0]] = params[x].split('=')[1];
  }
  document.getElementById("post-text").textContent = decodeURI(data["text"]);
- document.getElementById("post-username").textContent = decodeURI(data["username"]);
+ document.getElementById("post-username").textContent = decodeURI(data["username"]) + " @ " + decodeURI(data["timePosted"]);
 
 </script>
 
