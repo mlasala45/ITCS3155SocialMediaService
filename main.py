@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, url_for, render_template, session, instance
+from flask import Flask, flash, redirect, url_for, render_template, session
 from flask import request
 
 from flask_sqlalchemy import SQLAlchemy
@@ -20,10 +20,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 
 db = SQLAlchemy(app)
 
-@instance.before_request
+
+@app.before_request
 def initialize_session():
     session['username'] = None
     session['user-uid'] = None
+
 
 class UserCredentials(db.Model):
     __tablename__ = 'user_credentials'
