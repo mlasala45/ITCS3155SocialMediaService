@@ -103,7 +103,7 @@ def logout():
 
 @app.route('/welcome', methods=['GET'])
 def welcome():
-    query = UserPost.query
+    query = UserPost.query.order_by(UserPost.timePosted.desc())
     posts = query.all()
 
     # Adds data for the webpage that is not in the database entry
