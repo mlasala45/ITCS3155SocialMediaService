@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{username}} - Homepage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages-general.css') }}">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        {%- if username == None %}
+        <li><a href="/login">Log In</a></li>
+        {%- else %}
+        <li><a href="/logout">Log Out</a></li>
+        {%- endif %}
+        <li><a href="/home">Home</a></li>
+
+        {%- if username != None %}
+        <li style="float:right"><a class="active" href="/create-post">Create Post <span style="font-weight:bold">+</span></a></li>
+        {%- else %}
+        <li style="float:right"></li>
+        {%- endif %}
+      </ul>
+    </nav>
+
+    <div class="scroll">
+
+      <h1>{{homepage_username}}'s Profile</h1>
+
+
+    <!-- Flashed messages -->
+    {%- for category, message in get_flashed_messages(with_categories = true) %}
+    <div class="{{ category }}">
+        {{ message }}
+    </div>
+    {%- endfor %}
+
+
+    <!-- Feed Content -->
+    {%- if username == homepage_username %}
+      <h4>Your Posts:</h4>
+      {%- else %}
+      <h4>{{homepage_username}}'s Posts:</h4>
+      {%- endif %}
+    {%- for post in posts %}
+      <div>
+          <iframe src="../iframes/iframe-post?username={{post.username}}&text={{post.data.text}}&timePosted={{post.timePostedText}}" style="width: 302px; height:143px" seamless></iframe>
+          {%- if post.username == username %}
+          <div style="display: inline-block;bottom: 109px; position: relative;width: fit-content;text-align: left;">
+            <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
+            <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
+          </div>
+          {%- endif %}
+      </div>
+    {%- endfor %}
+    </div>
+
+    <footer>
+      <p>&copy; 2023 ITSC-3155 Group 10. All rights reserved.</p>
+    </footer>
+
+  </body>
+</html>

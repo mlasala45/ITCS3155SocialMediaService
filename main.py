@@ -47,6 +47,7 @@ class UserPost(db.Model):
     timePosted = db.Column(db.DateTime(), nullable=False)
     text = db.Column(db.String(280), nullable=False)
 
+
 @app.route("/")
 def home_implicit():
     return redirect("/welcome")
@@ -64,8 +65,10 @@ def log_user_out():
     session['user-uid'] = None
     return True
 
+
 def get_post_by_uid(post_uid):
     return UserPost.query.filter_by(uid=post_uid).first()
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -94,6 +97,7 @@ def login():
 def logout():
     log_user_out()
     return redirect("/")
+
 
 @app.route('/welcome', methods=['GET'])
 def welcome():
@@ -128,13 +132,32 @@ def remove_post(post_uid):
     return redirect('/home')
 
 
+@app.route('/users/<homepage_username>', methods=['GET'])
+def homepage(homepage_username):
+    user = UserCredentials.query.filter_by(username=homepage_username).first()
+
+    posts = UserPost.query.all()
+    # Adds data for the webpage that is not in the database entry
+    for i in range(0, len(posts)):
+        # Translates user UID to username
+        name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
+        timePosted = posts[i].timePosted
+        timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
+        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
+
+    return render_template('homepage.html', username=session['username'], homepage_username=homepage_username,
+                           posts=posts)
+
+
 @app.route('/home')
 def home_explicit():
     return redirect('/welcome')
 
+
 @app.route('/iframes/iframe-post')
 def iframe_post():
     return render_template('iframe-post.html')
+
 
 @app.route('/create-post', methods=['GET', 'POST'])
 def create_post():
