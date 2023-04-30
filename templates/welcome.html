@@ -50,7 +50,7 @@
             {%- if post.username == username %}
             <div class="card-actions">
               <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
-              <a href="/removepost" style="color:white">Remove</a>
+              <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
             </div>
             {%- endif %}
         </div>
