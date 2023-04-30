@@ -48,7 +48,7 @@
     <script src="{{ url_for('static', filename='js/iframe-post.js') }}"></script>
     {%- for post in posts %}
       <div>
-          <iframe src="iframes/iframe-post" style="width: 302px; height:{{143}}px" id="iframe-post-{{post.data.uid}}" onload="onLoad_iframe_post_{{post.data.uid}}();" seamless></iframe>
+          <iframe src="iframes/iframe-post" style="width: 422px; height:{{158}}px" id="iframe-post-{{post.data.uid}}" onload="onLoad_iframe_post_{{post.data.uid}}();" seamless></iframe>
           {%- if post.username == username %}
           <div style="display: inline-block;bottom: {{109}}px; position: relative;width: fit-content;text-align: left;">
             <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
