@@ -43,24 +43,26 @@
 
     <!-- Feed Content -->
     <h4>Your Feed:</h4>
-    <script src="{{ url_for('static', filename='js/iframe-post.js') }}"></script>
-    {%- for post in posts %}
-      <div>
-          <iframe src="iframes/iframe-post" style="width: 422px; height:{{158}}px" id="iframe-post-{{post.data.uid}}" onload="onLoad_iframe_post_{{post.data.uid}}();" seamless></iframe>
-          {%- if post.username == username %}
-          <div style="display: inline-block;bottom: {{109}}px; position: relative;width: fit-content;text-align: left;">
-            <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
-            <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
-          </div>
-          {%- endif %}
+    <div class="post-container">
+      <script src="{{ url_for('static', filename='js/iframe-post.js') }}"></script>
+      {%- for post in posts %}
+        <div class="card">
+            <iframe src="iframes/iframe-post" style="width: 422px; height:{{158}}px" id="iframe-post-{{post.data.uid}}" onload="onLoad_iframe_post_{{post.data.uid}}();" seamless></iframe>
+            {%- if post.username == username %}
+            <div class="card-actions">
+              <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
+              <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
+            </div>
+            {%- endif %}
 
-        <script>
-          function onLoad_iframe_post_{{post.data.uid}}() {
-          load_post(document.getElementById("iframe-post-{{post.data.uid}}"), decodeURIComponent("{{post.text}}"), "{{post.username}}", "{{post.timePostedText}}");
-          }
-        </script>
-      </div>
-    {%- endfor %}
+          <script>
+            function onLoad_iframe_post_{{post.data.uid}}() {
+            load_post(document.getElementById("iframe-post-{{post.data.uid}}"), decodeURIComponent("{{post.text}}"), "{{post.username}}", "{{post.timePostedText}}");
+            }
+          </script>
+        </div>
+      {%- endfor %}
+    </div>
     </div>
 
     <footer>

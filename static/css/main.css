@@ -45,8 +45,8 @@ iframe[seamless] {
 .card {
     display: flex;
     position: relative;
-    width: 302px;
-    height:143px;
+    width: 422px;
+    height:158px;
 }
 
 .card iframe {
@@ -57,5 +57,6 @@ iframe[seamless] {
 .card-actions {
     position: absolute;
     text-align: left;
+    width: fit-content;
     right: -60px;
 }
