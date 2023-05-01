@@ -100,6 +100,7 @@ def welcome():
         timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
         posts[i] = {"username": name, "timePosted": timePosted, "timePostedText": timePostedText, "data": posts[i]}
     
+    # Create a function to choose which value to sort the posts array by, then sort it reversed so newest post is first
     def returnDate(post):
         return post.get('timePosted')
     posts.sort(key=returnDate, reverse=True)
