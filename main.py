@@ -1,5 +1,5 @@
 from flask import Flask, flash, redirect, url_for, render_template, session
-from flask import request
+from flask import request, json
 
 from werkzeug.urls import url_quote
 

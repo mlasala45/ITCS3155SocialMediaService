@@ -7,7 +7,7 @@
   </head>
   <body>
     <nav>
-      <ul>
+      <ul id="username-check">
         {%- if username == None %}
         <li><a href="/login">Log In</a></li>
         {%- else %}
@@ -22,13 +22,11 @@
     </nav>
 
     <div class="scroll">
-
-
       {%- if username == None %}
-      <h1>Browsing as Guest</h1>
-      {%- else %}
-      <h1>Welcome, {{ username }}!</h1>
-      {%- endif %}
+        <h1>Browsing as Guest</h1>
+        {%- else %}
+        <h1>Welcome, {{ username }}!</h1>
+        {%- endif %}
 
 
     <!-- Flashed messages -->
