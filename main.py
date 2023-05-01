@@ -139,14 +139,15 @@ def remove_post(post_uid):
 def homepage(homepage_username):
     user = UserCredentials.query.filter_by(username=homepage_username).first()
 
-    posts = UserPost.query.all()
+    posts = UserPost.query.filter_by(user=user.uid).order_by(UserPost.timePosted.desc()).all()
     # Adds data for the webpage that is not in the database entry
     for i in range(0, len(posts)):
         # Translates user UID to username
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
         timePosted = posts[i].timePosted
         timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
-        posts[i] = {"username": name, "timePostedText": timePostedText, "data": posts[i]}
+        textEncoded = url_quote(posts[i].text)
+        posts[i] = {"username": name, "timePostedText": timePostedText, "text": textEncoded, "data": posts[i]}
 
     return render_template('homepage.html', username=session['username'], homepage_username=homepage_username,
                            posts=posts)
