@@ -4,12 +4,14 @@
 body{
     background-color: #575757;
     color: white;
+    margin: 0;
 }
 
 /* Style for navbar */
 nav {
     background-color: #333;
     overflow: hidden;
+    width: 100%;
   }
   nav ul {
     list-style-type: none;
@@ -40,7 +42,8 @@ nav {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     position: static;
     bottom: 0;
     width: 100%;

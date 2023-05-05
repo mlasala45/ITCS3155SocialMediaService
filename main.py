@@ -1,5 +1,7 @@
 from flask import Flask, flash, redirect, url_for, render_template, session
-from flask import request
+from flask import request, json
+
+from werkzeug.urls import url_quote
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -21,6 +23,14 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 db = SQLAlchemy(app)
 
 
+@app.before_request
+def initialize_session():
+    if 'username' not in session:
+        session['username'] = None
+    if 'user-uid' not in session:
+        session['user-uid'] = None
+
+
 class UserCredentials(db.Model):
     __tablename__ = 'user_credentials'
     uid = db.Column(db.Integer(), primary_key=True, nullable=False)
@@ -39,9 +49,10 @@ class UserPost(db.Model):
     timePosted = db.Column(db.DateTime(), nullable=False)
     text = db.Column(db.String(280), nullable=False)
 
+
 @app.route("/")
 def home_implicit():
-    return redirect("/login")
+    return redirect("/welcome")
 
 
 # Logs the user in. Called after details are validated. Returns false if an error occurred.
@@ -49,6 +60,16 @@ def log_user_in(username, user_uid):
     session['username'] = username
     session['user-uid'] = user_uid
     return True
+
+
+def log_user_out():
+    session['username'] = None
+    session['user-uid'] = None
+    return True
+
+
+def get_post_by_uid(post_uid):
+    return UserPost.query.filter_by(uid=post_uid).first()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -74,26 +95,73 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    log_user_out()
+    return redirect("/")
+
+
 @app.route('/welcome', methods=['GET'])
 def welcome():
-    query = UserPost.query
+    query = UserPost.query.order_by(UserPost.timePosted.desc())
     posts = query.all()
 
     # Adds data for the webpage that is not in the database entry
     for i in range(0, len(posts)):
         # Translates user UID to username
         name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
-        posts[i] = {"username": name, "data": posts[i]}
+        timePosted = posts[i].timePosted
+        timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
+        textEncoded = url_quote(posts[i].text)
+        posts[i] = {"username": name, "timePostedText": timePostedText, "text": textEncoded, "data": posts[i]}
 
     return render_template('welcome.html', username=session['username'], posts=posts)
+
+
+@app.route('/editpost/<post_uid>', methods=['GET', 'POST'])
+def edit_post(post_uid):
+    post = get_post_by_uid(post_uid)
+    if request.method == 'POST':
+        post.text = request.form['text']
+        db.session.commit()
+        return redirect("/home")
+    return render_template('edit-post.html', post=post)
+
+
+@app.route('/removepost/<post_uid>', methods=['GET'])
+def remove_post(post_uid):
+    UserPost.query.filter_by(uid=post_uid).delete()
+    db.session.commit()
+    return redirect('/home')
+
+
+@app.route('/users/<homepage_username>', methods=['GET'])
+def homepage(homepage_username):
+    user = UserCredentials.query.filter_by(username=homepage_username).first()
+
+    posts = UserPost.query.filter_by(user=user.uid).order_by(UserPost.timePosted.desc()).all()
+    # Adds data for the webpage that is not in the database entry
+    for i in range(0, len(posts)):
+        # Translates user UID to username
+        name = UserCredentials.query.filter_by(uid=posts[i].user).first().username
+        timePosted = posts[i].timePosted
+        timePostedText = timePosted.strftime("%I:%M %p").lstrip('0') + " " + timePosted.strftime("%d %B, %Y")
+        textEncoded = url_quote(posts[i].text)
+        posts[i] = {"username": name, "timePostedText": timePostedText, "text": textEncoded, "data": posts[i]}
+
+    return render_template('homepage.html', username=session['username'], homepage_username=homepage_username,
+                           posts=posts)
+
 
 @app.route('/home')
 def home_explicit():
     return redirect('/welcome')
 
+
 @app.route('/iframes/iframe-post')
 def iframe_post():
     return render_template('iframe-post.html')
+
 
 @app.route('/create-post', methods=['GET', 'POST'])
 def create_post():

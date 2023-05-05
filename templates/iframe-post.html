@@ -8,6 +8,7 @@
   <style id="gwd-text-style">
     p {
       margin: 0px;
+      color: black;
     }
     h1 {
       margin: 0px;
@@ -43,8 +44,8 @@
       border-width: 1px;
       border-style: solid;
       border-color: rgb(0, 0, 0);
-      width: 301px;
-      height: 143px;
+      width: 422px;
+      height: 157px;
       transform-origin: 50% 50% 0px;
     }
     .gwd-p-p2ca {
@@ -52,19 +53,41 @@
       height: 29px;
       font-family: "Trebuchet MS";
       color: white;
-      font-size: 20px;
+      font-size: 15px;
       left: 46px;
-      top: 6px;
+      top: 11px;
       transform-origin: 50% 50% 0px;
-      width: 159px;
+      width: 300px;
+    }
+    .class-edit-post {
+      position: absolute;
+      height: 29px;
+      font-family: "Trebuchet MS";
+      color: white;
+      font-size: 15px;
+      left: 250px;
+      top: 11px;
+      transform-origin: 50% 50% 0px;
+      width: 50px;
+    }
+    .class-remove-post {
+      position: absolute;
+      height: 29px;
+      font-family: "Trebuchet MS";
+      color: white;
+      font-size: 15px;
+      left: 250px;
+      top: 11px;
+      transform-origin: 50% 50% 0px;
+      width: 50px;
     }
     .gwd-p-yjd6 {
       position: absolute;
       font-family: Arial;
-      left: 5px;
-      top: 42px;
+      left: -32px;
+      top: 38px;
       transform-origin: 50% 50% 0px;
-      width: 292px;
+      width: 135%;
       height: 98px;
     }
     .gwd-oval-py4l {
@@ -80,16 +103,16 @@
     }
     .gwd-rect-fk2y {
       position: absolute;
-      height: 103px;
+      height: 117px;
       box-sizing: border-box;
       border-width: 1px;
       border-style: solid;
       border-color: rgb(0, 0, 0);
       background-image: none;
       background-color: rgb(202, 202, 202);
-      left: 1px;
-      top: 40px;
-      width: 300px;
+      left: -45px;
+      top: 29px;
+      width: 421px;
       transform-origin: 50% 50% 0px;
     }
     @media (width: 302px) and (height: 143px) {
@@ -107,7 +130,7 @@
       }
       .gwd-p-yjd6 {
         top: 42px;
-        left: 0px;
+        left: 5px;
         width: 298px;
         height: 98px;
         transform-origin: 50% 50% 0px;
@@ -122,30 +145,24 @@
 
 <body>
 <div position="static">
-  <script gwd-served-sizes="" type="application/json">["302x143"]</script>
-
+  <!-- 302 x 143 -->
+  <script gwd-served-sizes="" type="application/json">["302x442"]</script>
+  <!--<img src="/static/images/welcome.jpg" alt="Welcome Image" style="
+      top: 146px;
+      position: relative;
+      width: 299px;
+      left: 1px;
+  ">-->
   <svg data-gwd-shape="oval" preserveAspectRatio="none" viewBox="0 0 35 35" class="gwd-oval-py4l">
     <ellipse cx="50%" cy="50%" rx="17" ry="17"></ellipse>
   </svg>
   <svg data-gwd-shape="post-bg" class="gwd-rect-11k1">
-    <p class="gwd-p-p2ca" id="post-username">ERR</p>
+    <p class="gwd-p-p2ca" id="post-username" href="HOOK_USERNAME_LINK" target="_top">HOOK_POST_USERNAME</p>
     <svg data-gwd-shape="text-bg" class="gwd-rect-fk2y">
-      <p class="gwd-p-yjd6" id="post-text">ERR</p>
+      <p class="gwd-p-yjd6" id="post-text">HOOK_POST_TEXT</p>
     </svg>
   </svg>
   </div>
 </body>
-
-<script>
-var params = location.href.split('?')[1].split('&');
-data = {};
-for (x in params)
- {
-data[params[x].split('=')[0]] = params[x].split('=')[1];
- }
- document.getElementById("post-text").textContent = decodeURI(data["text"]);
- document.getElementById("post-username").textContent = decodeURI(data["username"]);
-
-</script>
 
 </html>

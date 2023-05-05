@@ -7,16 +7,27 @@
   </head>
   <body>
     <nav>
-      <ul>
+      <ul id="username-check">
+        {%- if username == None %}
         <li><a href="/login">Log In</a></li>
+        {%- else %}
+        <li><a href="/logout">Log Out</a></li>
+        {%- endif %}
         <li><a href="/home">Home</a></li>
+
+        {%- if username != None %}
         <li style="float:right"><a class="active" href="/create-post">Create Post <span style="font-weight:bold">+</span></a></li>
+        {%- endif %}
       </ul>
     </nav>
 
     <div class="scroll">
+      {%- if username == None %}
+        <h1>Browsing as Guest</h1>
+        {%- else %}
+        <h1>Welcome, {{ username }}!</h1>
+        {%- endif %}
 
-    <h1>Welcome, {{ username }}!</h1>
 
     <!-- Flashed messages -->
     {%- for category, message in get_flashed_messages(with_categories = true) %}
@@ -32,14 +43,30 @@
 
     <!-- Feed Content -->
     <h4>Your Feed:</h4>
-    {%- for post in posts %}
-    <!--By {{ post.username }} at {{ post.data.timePosted }}: {{ post.data.text }}<br>-->
-      <iframe src="iframes/iframe-post?username={{post.username}}&text={{post.data.text}}" style="width: 302px; height:143px" seamless></iframe><br>
-    {%- endfor %}
+    <div class="post-container">
+      <script src="{{ url_for('static', filename='js/iframe-post.js') }}"></script>
+      {%- for post in posts %}
+        <div class="card">
+            <iframe src="iframes/iframe-post" style="width: 422px; height:{{158}}px" id="iframe-post-{{post.data.uid}}" onload="onLoad_iframe_post_{{post.data.uid}}();" seamless></iframe>
+            {%- if post.username == username %}
+            <div class="card-actions">
+              <a href="/editpost/{{post.data.uid}}" style="color:white">Edit</a><br>
+              <a href="/removepost/{{post.data.uid}}" style="color:white">Remove</a>
+            </div>
+            {%- endif %}
+
+          <script>
+            function onLoad_iframe_post_{{post.data.uid}}() {
+            load_post(document.getElementById("iframe-post-{{post.data.uid}}"), decodeURIComponent("{{post.text}}"), "{{post.username}}", "{{post.timePostedText}}");
+            }
+          </script>
+        </div>
+      {%- endfor %}
+    </div>
     </div>
 
     <footer>
-      <p>&copy; 2023 3155 Project Site. All rights reserved.</p>
+      <p>&copy; 2023 ITSC-3155 Group 10. All rights reserved.</p>
     </footer>
 
   </body>
